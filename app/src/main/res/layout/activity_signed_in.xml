@@ -10,11 +10,13 @@
         android:id="@+id/signOutButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="@string/sign_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
 
     <ImageView
         android:id="@+id/displayPicture"
@@ -24,7 +26,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:contentDescription="@string/todo" />
 
     <Switch
         android:id="@+id/switch1"
@@ -34,5 +37,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displayPicture" />
+
+    <TextView
+        android:id="@+id/phoneNumberSignedIn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/signOutButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_horizontal"
+        android:hint="@string/phoneNumber"
         app:layout_constraintTop_toBottomOf="@+id/displayPicture" />
 </androidx.constraintlayout.widget.ConstraintLayout>

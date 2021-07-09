@@ -4,4 +4,6 @@
     <string name="otp">Enter OTP</string>
     <string name="generate_otp">Generate OTP</string>
     <string name="verify_sign_in"><![CDATA[Verify & Sign In]]></string>
+    <string name="sign_out">Sign Out</string>
+    <string name="todo">TODO</string>
 </resources>
