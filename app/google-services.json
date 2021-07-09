@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "990567854269",
+    "project_id": "trueotp-7d036",
+    "storage_bucket": "trueotp-7d036.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990567854269:android:8b3d2da36c2243b99f07d4",
+        "android_client_info": {
+          "package_name": "com.example.trueotp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "990567854269-mso631eljjhv9f80mpbm0jpq2v06mfoi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAelyP3H4UpyG9Cotz03YWgItZrHJDI8pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "990567854269-mso631eljjhv9f80mpbm0jpq2v06mfoi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

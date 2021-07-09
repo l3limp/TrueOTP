@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TrueOTP</string>
+    <string name="phoneNumber">Your Phone Number</string>
+    <string name="otp">Enter OTP</string>
+    <string name="generate_otp">Generate OTP</string>
+    <string name="verify_sign_in"><![CDATA[Verify & Sign In]]></string>
 </resources>
