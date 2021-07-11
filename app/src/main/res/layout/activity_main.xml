@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    tools:context=".MainActivity">
 
+    <!--Edittext for getting users phone number-->
     <EditText
-        android:layout_width="350dp"
+        android:id="@+id/idEdtPhoneNumber"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/phoneNumber"
-        android:hint= "@string/phoneNumber"
-        android:layout_marginTop="90dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:hint="@string/phoneNumber"
+        android:importantForAutofill="no"
+        android:inputType="phone" />
 
+    <!--Button for getting OTP-->
+    <Button
+        android:id="@+id/idBtnGetOtp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idEdtPhoneNumber"
+        android:layout_margin="10dp"
+        android:text="@string/generate_otp"
+        android:textAllCaps="false" />
+
+    <!--Edittext for getting otp from user-->
     <EditText
-        android:layout_width="350dp"
+        android:id="@+id/idEdtOtp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/OTP"
-        android:hint= "@string/otp"
-        android:layout_marginTop="50dp"/>
+        android:layout_below="@id/idBtnGetOtp"
+        android:layout_margin="10dp"
+        android:hint="@string/otp"
+        android:importantForAutofill="no"
+        android:inputType="phone" />
 
+    <!--button for verifying user OTP-->
     <Button
-        android:layout_width="350dp"
+        android:id="@+id/idBtnVerify"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:id="@+id/generateOTP"
-        android:background = "@color/black"
-        android:textColor="@color/white"
-        android:hint="@string/generate_otp"/>
+        android:layout_below="@id/idEdtOtp"
+        android:layout_margin="10dp"
+        android:text="@string/verify_sign_in"
+        android:textAllCaps="false" />
 
-    <Button
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/verify"
-        android:layout_marginTop="50dp"
-        android:hint="@string/verify_sign_in"/>
-
-    <ImageView
-        android:id="@+id/displayPicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:srcCompat="@drawable/fui_ic_googleg_color_24dp"
-        android:contentDescription="@string/todo" />
-
-</LinearLayout>
+</RelativeLayout>
