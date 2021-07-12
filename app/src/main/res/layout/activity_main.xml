@@ -1,51 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/constraintLayout">
 
-    <!--Edittext for getting users phone number-->
     <EditText
         android:id="@+id/idEdtPhoneNumber"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
         android:hint="@string/phoneNumber"
         android:importantForAutofill="no"
-        android:inputType="phone" />
+        android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!--Button for getting OTP-->
     <Button
         android:id="@+id/idBtnGetOtp"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idEdtPhoneNumber"
-        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
         android:text="@string/generate_otp"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idEdtPhoneNumber" />
 
-    <!--Edittext for getting otp from user-->
-    <EditText
-        android:id="@+id/idEdtOtp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/idBtnGetOtp"
-        android:layout_margin="10dp"
-        android:hint="@string/otp"
-        android:importantForAutofill="no"
-        android:inputType="phone" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:layout_constraintBottom_toTopOf="@+id/idEdtPhoneNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/fui_ic_googleg_color_24dp"/>
 
-    <!--button for verifying user OTP-->
-    <Button
-        android:id="@+id/idBtnVerify"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/idEdtOtp"
-        android:layout_margin="10dp"
-        android:text="@string/verify_sign_in"
-        android:textAllCaps="false" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
