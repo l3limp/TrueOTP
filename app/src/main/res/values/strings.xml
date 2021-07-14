@@ -6,4 +6,6 @@
     <string name="verify_sign_in"><![CDATA[Verify & Sign In]]></string>
     <string name="sign_out">Sign Out</string>
     <string name="todo">TODO</string>
+    <string name="partnerKey">mnVqadcfbaca917814ebaada108a5aecb7931</string>
+    <string name="tap_me_for_fun">Tap Me For Fun</string>
 </resources>

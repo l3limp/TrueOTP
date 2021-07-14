@@ -24,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.truecaller.android.sdk.TruecallerSDK;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -117,6 +118,11 @@ public class OTPFragment extends Fragment {
                         Intent i = new Intent(getActivity(), SignedIn.class);
                         startActivity(i);
                 });
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        TruecallerSDK.clear();
     }
 }
 

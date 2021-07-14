@@ -1,6 +1,7 @@
 package com.example.trueotp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private EditText edtPhone;
-    private String verificationId;
     public static PhoneAuthProvider.ForceResendingToken token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+//        TruecallerSDK.init(trueScope);
+//        TruecallerSDK.getInstance();
+
         edtPhone = findViewById(R.id.idEdtPhoneNumber);
         Button generateOTPBtn = findViewById(R.id.idBtnGetOtp);
+        Button verifyPhNum = findViewById(R.id.phNumVerify);
 
         generateOTPBtn.setOnClickListener(v -> {
 
@@ -53,7 +58,54 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+        verifyPhNum.setOnClickListener(V-> {
+//            if(TruecallerSDK.getInstance().isUsable()) {
+//                TruecallerSDK.getInstance().getUserProfile(MainActivity.this);
+//            }
+
+                startActivity(new Intent(MainActivity.this, UserVerificationActivity.class));
+                Toast.makeText(MainActivity.this, "Lmao ded xd", Toast.LENGTH_SHORT).show();
+
+        });
+
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == TruecallerSDK.SHARE_PROFILE_REQUEST_CODE) {
+//            TruecallerSDK.getInstance().onActivityResultObtained(this, requestCode, resultCode, data);
+//        }
+//    }
+//
+//    public final ITrueCallback sdkCallback = new ITrueCallback() {
+//
+//        @Override
+//        public void onSuccessProfileShared(@NonNull final TrueProfile trueProfile) {
+////            Toast.makeText(MainActivity.this, "Lmao ded wow profile correct", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void onFailureProfileShared(@NonNull final TrueError trueError) {
+////            Toast.makeText(MainActivity.this, "F ho gaya, failll", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void onVerificationRequired(@Nullable final TrueError trueError) {
+////            Toast.makeText(MainActivity.this, "ver req", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    };
+//
+//    TruecallerSdkScope trueScope = new TruecallerSdkScope.Builder(this, sdkCallback)
+//            .consentMode(TruecallerSdkScope.CONSENT_MODE_BOTTOMSHEET)
+//            .loginTextPrefix(TruecallerSdkScope.LOGIN_TEXT_PREFIX_TO_GET_STARTED)
+//            .loginTextSuffix(TruecallerSdkScope.LOGIN_TEXT_SUFFIX_PLEASE_VERIFY_MOBILE_NO)
+//            .ctaTextPrefix(TruecallerSdkScope.CTA_TEXT_PREFIX_USE)
+//            .buttonShapeOptions(TruecallerSdkScope.BUTTON_SHAPE_ROUNDED)
+//            .consentTitleOption(TruecallerSdkScope.SDK_CONSENT_TITLE_LOG_IN)
+//            .sdkOptions(TruecallerSdkScope.SDK_OPTION_WITHOUT_OTP)
+//            .build();
 
     private void sendVerificationCode(String phNumber) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -83,9 +135,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
-            verificationId = s;
             token = forceResendingToken;
 
             edtPhone.setVisibility(View.GONE);
@@ -95,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             OTPFragment fragment = new OTPFragment();
             Bundle args = new Bundle();
             args.putString("phoneNumber", edtPhone.getText().toString());
-            args.putString("verificationID", verificationId);
+            args.putString("verificationID", s);
             fragment.setArguments(args);
             fragment.setEnterTransition(new Slide(Gravity.END).setDuration(200));
 
