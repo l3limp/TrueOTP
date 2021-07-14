@@ -62,10 +62,8 @@ public class MainActivity extends AppCompatActivity {
 //            if(TruecallerSDK.getInstance().isUsable()) {
 //                TruecallerSDK.getInstance().getUserProfile(MainActivity.this);
 //            }
-
                 startActivity(new Intent(MainActivity.this, UserVerificationActivity.class));
                 Toast.makeText(MainActivity.this, "Lmao ded xd", Toast.LENGTH_SHORT).show();
-
         });
 
     }
@@ -142,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
             edtPhone.setVisibility(View.GONE);
             findViewById(R.id.imageView).setVisibility(View.GONE);
             findViewById(R.id.idBtnGetOtp).setVisibility(View.GONE);
+            findViewById(R.id.textView).setVisibility(View.GONE);
+            findViewById(R.id.phNumVerify).setVisibility(View.GONE);
 
             OTPFragment fragment = new OTPFragment();
             Bundle args = new Bundle();
