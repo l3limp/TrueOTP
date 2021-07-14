@@ -1,7 +1,6 @@
 package com.example.trueotp;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -13,7 +12,6 @@ import com.truecaller.android.sdk.TruecallerSDK;
 import com.truecaller.android.sdk.TruecallerSdkScope;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class UserVerificationActivity extends AppCompatActivity {
@@ -29,7 +27,7 @@ public class UserVerificationActivity extends AppCompatActivity {
 
         @Override
         public void onFailureProfileShared(@NonNull final TrueError trueError) {
-            Toast.makeText(UserVerificationActivity.this.getApplicationContext(), "onFailureProfileShared: " + trueError.getErrorType(), Toast
+            Toast.makeText(UserVerificationActivity.this.getApplicationContext(), "Failed to retrieve profile: " + trueError.getErrorType(), Toast
                     .LENGTH_SHORT).show();
         }
 
@@ -41,15 +39,6 @@ public class UserVerificationActivity extends AppCompatActivity {
         }
     };
 
-    private final View.OnClickListener startClickListener = view -> {
-        try {
-            TruecallerSDK.getInstance().getUserProfile(UserVerificationActivity.this);
-        } catch (Exception e) {
-            Toast.makeText(UserVerificationActivity.this.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +49,6 @@ public class UserVerificationActivity extends AppCompatActivity {
         initTruecallerSDK();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initTruecallerSDK() {
         TruecallerSdkScope trueScope = new TruecallerSdkScope.Builder(this, sdkCallback)
                 .consentMode(TruecallerSdkScope.CONSENT_MODE_BOTTOMSHEET)
@@ -77,6 +65,14 @@ public class UserVerificationActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         TruecallerSDK.getInstance().onActivityResultObtained(this, requestCode, resultCode, data);
     }
+
+    private final View.OnClickListener startClickListener = view -> {
+        try {
+            TruecallerSDK.getInstance().getUserProfile(UserVerificationActivity.this);
+        } catch (Exception e) {
+            Toast.makeText(UserVerificationActivity.this.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onDestroy() {
