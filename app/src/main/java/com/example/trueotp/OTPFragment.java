@@ -2,6 +2,7 @@ package com.example.trueotp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -28,6 +31,8 @@ import com.truecaller.android.sdk.TruecallerSDK;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OTPFragment extends Fragment {
 
@@ -45,8 +50,13 @@ public class OTPFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstancesState) {
         super.onViewCreated(view, savedInstancesState);
+
         otp = root.findViewById(R.id.idEdtOtp);
         mAuth = FirebaseAuth.getInstance();
+
+        assert getArguments() != null;
+        String OTPtext = getArguments().getString("OTPtext");
+        otp.setText(OTPtext);
 
         Bundle bundle = this.getArguments();
         root.findViewById(R.id.idBtnVerify).setOnClickListener(v -> {
@@ -84,8 +94,8 @@ public class OTPFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     void setCodeNotReceived() {
-        TextView codeNotRecieved = root.findViewById(R.id.resendOTP);
-        codeNotRecieved.setOnTouchListener((v, event) -> {
+        TextView codeNotReceived = root.findViewById(R.id.resendOTP);
+        codeNotReceived.setOnTouchListener((v, event) -> {
             if(event.getAction() == MotionEvent.ACTION_UP) {
                 resendVerificationCode();
                 Toast.makeText(requireActivity(),
@@ -93,7 +103,7 @@ public class OTPFragment extends Fragment {
                 return true;
             }
             else if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                codeNotRecieved.setTextColor(Color.LTGRAY);
+                codeNotReceived.setTextColor(Color.LTGRAY);
                 return true;
             }
             return false;
@@ -119,6 +129,7 @@ public class OTPFragment extends Fragment {
                         startActivity(i);
                 });
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

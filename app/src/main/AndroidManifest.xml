@@ -19,7 +19,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TrueOTP">
-        <activity android:name=".UserVerificationActivity"></activity>
+        <receiver
+            android:name=".SMSBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+        <activity android:name=".UserVerificationActivity" />
 
         <meta-data
             android:name="com.truecaller.android.sdk.PartnerKey"
