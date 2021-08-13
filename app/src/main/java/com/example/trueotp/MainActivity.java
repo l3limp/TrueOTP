@@ -1,8 +1,14 @@
 package com.example.trueotp;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,9 +23,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,19 +40,15 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 
 public class MainActivity extends AppCompatActivity {
-
 
     private FirebaseAuth mAuth;
     private EditText edtPhone;
     public static PhoneAuthProvider.ForceResendingToken token;
     private static final int REQ_USER_CONSENT = 200;
-    SMSBroadcastReceiver smsBroadcastReceiver;
-    String otpFromFirebase;
+    SmsBroadcastReceiver smsBroadcastReceiver;
+//    String otpFromFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
         Button generateOTPBtn = findViewById(R.id.idBtnGetOtp);
         Button verifyPhNum = findViewById(R.id.phNumVerify);
 
-        if(otpFromFirebase!=null){
-            Bundle otpBundle = new Bundle();
-            otpBundle.putString("OTPtext", otpFromFirebase);
-            OTPFragment fragobj = new OTPFragment();
-            fragobj.setArguments(otpBundle);
-        }
+//        if(otpFromFirebase!=null){
+//            Bundle otpBundle = new Bundle();
+//            otpBundle.putString("OTPtext", otpFromFirebase);
+//            OTPFragment fragobj = new OTPFragment();
+//            fragobj.setArguments(otpBundle);
+//        }
 
         generateOTPBtn.setOnClickListener(v -> {
 
@@ -71,9 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        verifyPhNum.setOnClickListener(V-> {
-                startActivity(new Intent(MainActivity.this, UserVerificationActivity.class));
-        });
+        verifyPhNum.setOnClickListener(V-> startActivity(new Intent(MainActivity.this, UserVerificationActivity.class)));
 
     }
 
@@ -130,17 +136,22 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+
     private void startSmartUserConsent() {
         SmsRetrieverClient client = SmsRetriever.getClient(this);
         client.startSmsUserConsent(null);
     }
 
-    private void registerBroadcastReceiver() {
-        smsBroadcastReceiver = new SMSBroadcastReceiver();
-        smsBroadcastReceiver.smsBroadcastReceiverListener = new SMSBroadcastReceiver.SMSBroadcastReceiverListener() {
+    private void registerBroadcastReceiver(){
+
+        smsBroadcastReceiver = new SmsBroadcastReceiver();
+
+        smsBroadcastReceiver.smsBroadcastReceiverListener = new SmsBroadcastReceiver.SmsBroadcastReceiverListener() {
             @Override
             public void onSuccess(Intent intent) {
-                startActivityForResult(intent, REQ_USER_CONSENT);
+
+                startActivityForResult(intent,REQ_USER_CONSENT);
+
             }
 
             @Override
@@ -148,8 +159,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+
         IntentFilter intentFilter = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
-        registerReceiver(smsBroadcastReceiver, intentFilter);
+        registerReceiver(smsBroadcastReceiver,intentFilter);
+
     }
 
     @Override
@@ -159,14 +172,15 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == REQ_USER_CONSENT) {
             if((resultCode== MainActivity.RESULT_OK) && (data!=null)) {
                 String message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE);
-                getOtpFromMessage(message);
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+//                getOtpFromMessage(message);
             }
         }
     }
-
-    private void getOtpFromMessage(String message) {
-        otpFromFirebase = message.substring(0, 6);
-    }
+//
+//    private void getOtpFromMessage(String message) {
+//        otpFromFirebase = message.substring(0, 6);
+//    }
 
     @Override
     public void onStart() {

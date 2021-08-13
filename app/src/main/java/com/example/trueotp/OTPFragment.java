@@ -1,11 +1,14 @@
 package com.example.trueotp;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +19,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
@@ -40,6 +45,9 @@ public class OTPFragment extends Fragment {
     EditText otp;
     View root;
     public static PhoneAuthProvider.ForceResendingToken token;
+//        private static final int REQ_USER_CONSENT = 200;
+//    SMSBroadcastReceiver smsBroadcastReceiver;
+//    String otpFromFirebase;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,10 +61,13 @@ public class OTPFragment extends Fragment {
 
         otp = root.findViewById(R.id.idEdtOtp);
         mAuth = FirebaseAuth.getInstance();
+//        startSmartUserConsent();
 
-        assert getArguments() != null;
-        String OTPtext = getArguments().getString("OTPtext");
-        otp.setText(OTPtext);
+//        assert getArguments() != null;
+//        String OTPtext = getArguments().getString("OTPtext");
+//        otp.setText(OTPtext);
+
+//        otp.setText(otpFromFirebase);
 
         Bundle bundle = this.getArguments();
         root.findViewById(R.id.idBtnVerify).setOnClickListener(v -> {
@@ -67,6 +78,7 @@ public class OTPFragment extends Fragment {
                         PhoneAuthProvider.getCredential(verID,
                                 otp.getText().toString());
 
+                Toast.makeText(getContext(), credential.getSmsCode(), Toast.LENGTH_SHORT).show();
                 signInWithCredential(credential);
 
             } else
@@ -129,6 +141,56 @@ public class OTPFragment extends Fragment {
                         startActivity(i);
                 });
     }
+
+//        private void startSmartUserConsent() {
+//        SmsRetrieverClient client = SmsRetriever.getClient(requireActivity());
+//        client.startSmsUserConsent(null);
+//    }
+//
+//    private void registerBroadcastReceiver() {
+//        smsBroadcastReceiver = new SMSBroadcastReceiver();
+//        smsBroadcastReceiver.smsBroadcastReceiverListener = new SMSBroadcastReceiver.SMSBroadcastReceiverListener() {
+//            @Override
+//            public void onSuccess(Intent intent) {
+//                requireActivity().startActivityForResult(intent, REQ_USER_CONSENT);
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//
+//            }
+//        };
+//        IntentFilter intentFilter = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
+//        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(smsBroadcastReceiver, intentFilter);
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(requestCode == REQ_USER_CONSENT) {
+//            if((resultCode== MainActivity.RESULT_OK) && (data!=null)) {
+//                String message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE);
+//                getOtpFromMessage(message);
+//            }
+//        }
+//    }
+//
+//    private void getOtpFromMessage(String message) {
+//        otpFromFirebase = message.substring(0, 6);
+//    }
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        registerBroadcastReceiver();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(smsBroadcastReceiver);
+//    }
 
     @Override
     public void onDestroy() {

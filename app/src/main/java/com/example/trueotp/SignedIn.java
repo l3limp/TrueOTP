@@ -33,7 +33,7 @@ public class SignedIn extends AppCompatActivity {
         setMediaController();
 
         AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+//        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
 
         FAB.setOnClickListener(V-> {
             if(vid.isPlaying()) {
@@ -43,7 +43,7 @@ public class SignedIn extends AppCompatActivity {
             else if(!vid.isPlaying()){
                 vid.start();
                 FAB.setImageResource(R.drawable.ic_baseline_pause_24);
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+//                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
             }
         });
         signOut.setOnClickListener(v-> {

@@ -5,6 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.data.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.truecaller.android.sdk.ITrueCallback;
 import com.truecaller.android.sdk.TrueError;
 import com.truecaller.android.sdk.TrueProfile;
@@ -16,16 +22,40 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class UserVerificationActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_verification);
+
+        findViewById(R.id.btnStart).setOnClickListener(startClickListener);
+        mAuth = FirebaseAuth.getInstance();
+
+        initTruecallerSDK();
+    }
+
     private final ITrueCallback sdkCallback = new ITrueCallback() {
         @Override
         public void onSuccessProfileShared(@NonNull final TrueProfile trueProfile) {
-            Toast.makeText(UserVerificationActivity.this.getApplicationContext(),
-                    "Verified Truecaller User: " + trueProfile.firstName,
-                    Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(UserVerificationActivity.this, SignedIn.class));
+//            Toast.makeText(UserVerificationActivity.this.getApplicationContext(),
+//                    "Verified Truecaller User: " + trueProfile.firstName,
+//                    Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(UserVerificationActivity.this,SignedIn.class));
         }
+//        public void updateUI(FirebaseUser account){
+//
+//            if(account != null){
+//                Toast.makeText(UserVerificationActivity.this, "Signed in", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(UserVerificationActivity.this,SignedIn.class));
+//            }else {
+//                Toast.makeText(UserVerificationActivity.this,"couldnt sign in",Toast.LENGTH_LONG).show();
+//            }
+//        }
 
-        @Override
+
+
+            @Override
         public void onFailureProfileShared(@NonNull final TrueError trueError) {
             Toast.makeText(UserVerificationActivity.this.getApplicationContext(), "Failed to retrieve profile: " + trueError.getErrorType(), Toast
                     .LENGTH_SHORT).show();
@@ -38,16 +68,6 @@ public class UserVerificationActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_verification);
-
-        findViewById(R.id.btnStart).setOnClickListener(startClickListener);
-
-        initTruecallerSDK();
-    }
 
     private void initTruecallerSDK() {
         TruecallerSdkScope trueScope = new TruecallerSdkScope.Builder(this, sdkCallback)
